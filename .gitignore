@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Editor
+*.swp
+
+# Daily briefings — contain real client email content, never commit
+output/briefings/*.md
+!output/briefings/.gitkeep
+
+# Env files
+.env
+.env.local
+
+# Node (in case anything ever gets dropped in here)
+node_modules/
