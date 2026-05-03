@@ -36,15 +36,17 @@ Filter aggressively. **SKIP:**
 - Auto-generated emails (no human author)
 - Calendar invites (these go to the calendar, not the brief)
 - Newsletters, marketing, system reports
-- Threads where Jason is only on CC and not asked to do anything
-- Replies in threads where Jason already had the last word
+- Threads where Jason is on CC AND there is no direct-address signal AND no action language in the body (see KEEP below for what counts as either)
 
 **KEEP:**
 
 - Real human emails
-- Where Jason is in **To:** (or in CC but explicitly addressed by name)
+- Where Jason is in **To:**, OR Jason is in CC and the body contains either a direct-address signal or action language directed at him. Specifically:
+  - **Direct-address signals:** his first name "Jason", "@Jason", or "you" used in the second person clearly pointing at him
+  - **Action language:** "can you", "please", "who's handling", "thoughts on", "your take", "weigh in", "let me know", "any update"
+  - If EITHER is present, treat as a real ask and surface in the appropriate bucket. If NEITHER is present, skip.
 - That contain a question, request, or actionable item directed at Jason
-- Even if Jason has already replied — see Step 2 to verify the reply addressed the ask
+- Even if Jason has already replied (and even if Jason had the last word in the thread) — see Step 2, which will both verify the reply addressed the ask AND scan Jason's reply for open commitments. These threads only reach the final brief if Step 2 finds something pending.
 
 ---
 
@@ -63,6 +65,28 @@ For every email kept, search Jason's sent folder for replies in that thread sent
 
 - Surface in **Needs action**
 
+**Also scan Jason's reply for open commitments he made.**
+
+Regardless of whether the reply addressed the ask, scan Jason's reply text for first-person future-tense commitments. Watch for phrases like:
+
+- "I'll send..." / "I will send..."
+- "I'll get back to you" / "I'll follow up"
+- "let me pull..." / "let me put together..."
+- "I'll have it by [day/date]"
+- "I'll loop in [person]"
+- "I'll set up a [meeting/call]"
+- Any future-tense first-person commitment
+
+For each commitment found, check for evidence Jason delivered:
+
+- A later sent email from Jason with the deliverable referenced or attached
+- A calendar event Jason created matching the commitment
+- A Slack message from Jason that fulfills it
+
+If a commitment was made but no evidence of delivery exists AND the commitment date has passed (or, if no specific date was given, more than 3 business days have elapsed since Jason made it), surface in **🟠 OPEN COMMITMENTS** (see Step 3) with: the original ask, Jason's commitment quoted verbatim, when he made it, and what evidence is missing.
+
+To catch commitments older than this brief's 24/72-hour candidate window, also do a broader sweep of Jason's sent folder over the last 14 days for replies containing commitment language and run the same delivery check. (This sweep is in addition to — not instead of — the per-candidate scan above.)
+
 ---
 
 ## Step 3: Score and bucket
@@ -73,11 +97,13 @@ For each email surfaced, assign a priority bucket based on:
 - **Time pressure** — sender follows up on something older = HIGH
 - **Direct ask vs. casual question** — direct ask = MED or HIGH; casual = LOW
 - **Whether Jason has already partially addressed it** — partial = MED
+- **Escalation in tone within the thread** — if the same sender's emails escalate from casual ("when you get a chance") to urgent ("this is blocking us", "any update", "circling back", "bumping this") across the thread, HIGH regardless of sender domain. Tone change inside an existing thread is itself a priority signal.
 
 **Buckets:**
 
 - 🔴 **NEEDS ACTION TODAY** — anyone from a priority domain with an unanswered ask, or any time-pressured follow-up
 - 🟡 **NEEDS REVIEW** — direct asks from non-priority senders, or things requiring judgment
+- 🟠 **OPEN COMMITMENTS** — Jason said he'd do something and hasn't; populated by Step 2's commitment scan
 - ⚪ **FYI** — already handled, or low-priority FYI items
 - 📌 **OPEN LOOPS** — emails sent more than 3 days ago without Jason responding
 
@@ -107,6 +133,23 @@ For each email in 🔴 and 🟡 buckets, decide if you can draft a reply.
 - Lead with `Hey,` or `Hey [name],` — match the original email's formality
 - Sign as `Jason Salmani / Senior Customer Success Manager` only if the original email is formal; otherwise just the lowercase greeting + body, no signature
 - Add a confidence rating at the end of the draft: **HIGH** (send as-is), **MEDIUM** (review), **LOW** (review carefully)
+
+### Drafts for 🟠 OPEN COMMITMENTS — "status reset" replies
+
+Items in OPEN COMMITMENTS get a different kind of draft: a **status reset reply, not the deliverable itself.** You can't manufacture the deck Jason promised, but you can draft the message that resets expectations.
+
+**Structure the reset reply:**
+
+- A brief acknowledgment that the commitment is overdue. Don't over-apologize — match the casual tone in `tone-samples.md` (Jason doesn't grovel)
+- A brief reason if it's obvious from context. Check Jason's calendar for the period since the commitment was made: if it shows a heavy load, allude to it lightly. If there's no clear context, keep it generic — "got pulled into something" framing rather than fabricating a specific reason
+- A new specific commitment with a date — not "soon" or "this week," but a specific day or a clear time-bounded commitment ("by EOD Thursday", "tomorrow morning")
+- Confidence rating: **always LOW** for these. Jason should review every commitment-reset draft because the new committed date has to be one he'll actually hit — only he knows that
+
+**DON'T draft a commitment-reset reply if:**
+
+- The original commitment was vague (e.g., "I'll think about it") — there's nothing concrete to reset
+- The recipient has already nudged Jason 3+ times about it — that's an escalation case; surface it as such in the OPEN COMMITMENTS item with a note "escalation: [N] follow-ups", but don't try to defuse it with a draft
+- The thread shows the recipient has already accepted a delay — no reset needed; just surface the commitment without a draft
 
 ---
 
@@ -158,6 +201,20 @@ For each item:
 ## 🟡 Needs review
 
 [same structure, lower urgency]
+
+## 🟠 Open commitments — you said you'd do something and haven't
+
+For each item:
+- **To:** [recipient name]
+- **Original ask:** [one-sentence summary]
+- **Your commitment:** "[verbatim quote from your reply]"
+- **Made on:** [date]
+- **Evidence missing:** [what would prove delivery — sent email, calendar event, Slack message]
+- **Status reset draft (confidence: LOW — always review the new committed date):**
+  > [drafted text — acknowledgment, brief reason if any, new specific date]
+  >
+  > _Skipped: vague commitment / 3+ follow-ups (escalation) / delay already accepted_ — only one of these if the draft was skipped
+- **Action:** Send the deliverable | Send the reset draft | Mark as no longer relevant
 
 ## 📌 Open loops
 
