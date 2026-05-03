@@ -246,8 +246,8 @@ Send the brief two ways:
 2. **Email to Jason** — HTML formatted, same content but rendered with email-friendly HTML (table-based or simple semantic HTML, not a full CSS framework)
 
 **Email subject:** `Morning Brief — [Day, Month DD]`
-**Email from:** [Jason fills in — your preferred sending address]
-**Email to:** [Jason fills in — your delivery email address]
+**Email from:** jason.salmani@ctwo.com
+**Email to:** jason.salmani@ctwo.com
 **Slack DM channel:** Jason's user (DM channel)
 
 ---
