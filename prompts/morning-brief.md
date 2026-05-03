@@ -20,9 +20,18 @@ If any file is missing or empty, proceed with reasonable defaults and note it in
 ## Time window
 
 - Today is determined by the current system date (Eastern time).
-- If today is **Monday**, look back **72 hours** (covers Friday afternoon, the weekend, and this morning).
-- If today is **Tuesday–Friday**, look back **24 hours**.
-- **Skip Saturday and Sunday entirely** — don't run, don't deliver.
+- First decide whether this is a **scheduled run** or a **manual/test run**:
+  - **Scheduled run** = invoked by the recurring Cowork cron (Mon–Fri morning Eastern).
+  - **Manual run** = anything else — Jason hit "Run now," triggered from a dev/test environment, or invoked the task off-schedule.
+- **Scheduled-run window:**
+  - **Monday:** look back **72 hours** (covers Friday afternoon, the weekend, and this morning).
+  - **Tuesday–Friday:** look back **24 hours**.
+  - **Saturday / Sunday:** skip entirely — don't run, don't deliver. The cron shouldn't fire on weekends, but if it does, no-op.
+- **Manual-run window:** always proceed, including on weekends. Pick the window based on the current day:
+  - **Monday:** 72 hours back (same as scheduled).
+  - **Tuesday–Friday:** 24 hours back (same as scheduled).
+  - **Saturday:** look back to roughly Friday morning — about 24 hours from the equivalent of Friday's scheduled run time. Treat it as "what would the Friday brief have caught if it ran now?"
+  - **Sunday:** look back to roughly Friday morning — about 72 hours, same shape as the Monday rule.
 
 ---
 
